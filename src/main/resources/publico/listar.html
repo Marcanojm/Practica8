@@ -41,23 +41,22 @@
                 var tabla = document.createElement("table");
                 var filaTabla = tabla.insertRow();
 
-                filaTabla.insertCell().textContent = "Nombre";
+                tabla.setAttribute("class", "table");
+                filaTabla.insertCell().innerHTML = "Nombre";
                 filaTabla.insertCell().textContent = "Sector";
                 filaTabla.insertCell().textContent = "Nivel Escolar";
                 filaTabla.insertCell().textContent = "Opcion";
                 filaTabla.insertCell().textContent = "Opcion";
 
                 for (var key in lista_personas) {
-                    //
                     filaTabla = tabla.insertRow();
                     filaTabla.insertCell().textContent = "" + lista_personas[key].nombre;
                     filaTabla.insertCell().textContent = "" + lista_personas[key].sector;
                     filaTabla.insertCell().textContent = "" + lista_personas[key].nivelEscolar;
-                    filaTabla.insertCell().innerHTML = "<button onclick='borrarPersona(" + lista_personas[key].id + ")'>Borrar</button>";
-                    filaTabla.insertCell().innerHTML = "<button onclick='modificarPersona(" + lista_personas[key].id + ")'>Modificar</button>";
+                    filaTabla.insertCell().innerHTML = "<button class='btn btn-danger' onclick='borrarPersona(" + lista_personas[key].id + ")'>Borrar</button>";
+                    filaTabla.insertCell().innerHTML = "<button class='btn btn-warning' onclick='modificarPersona(" + lista_personas[key].id + ")'>Modificar</button>";
                 }
 
-                document.getElementById("listaPersonas").innerHTML = "";
                 document.getElementById("listaPersonas").appendChild(tabla);
             }
 
@@ -67,7 +66,7 @@
                 var estudiantes = data.objectStore("personas");
 
                 estudiantes.delete(id).onsuccess = function (e) {
-                    window.location.replace("/listar");
+                    window.location.replace("/listar.html");
                 };
             }
 
@@ -88,7 +87,7 @@
                         resultado.nombre = nombre;
                         resultado.sector = sector;
                         var solicitudUpdate = personas.put(resultado);
-                        window.location.replace("/listar");
+                        window.location.replace("/listar.html");
                     }
                 };
             }
@@ -96,33 +95,9 @@
 </head>
     <body>
         <div class="container">
-            <h1>Lista Personas</h1>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Sector</th>
-                    <th>Nivel Escolar</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>john@example.com</td>
-                </tr>
-                <tr>
-                    <td>Mary</td>
-                    <td>Moe</td>
-                    <td>mary@example.com</td>
-                </tr>
-                <tr>
-                    <td>July</td>
-                    <td>Dooley</td>
-                    <td>july@example.com</td>
-                </tr>
-                </tbody>
-            </table>
+            <h1>Lista Personas</h1><br/>
+            <div id="listaPersonas"></div>
+            <a href="/formulario"><button type="button" class="btn btn-primary btn-block">Home</button></a>
         </div>
     </body>
 </html>

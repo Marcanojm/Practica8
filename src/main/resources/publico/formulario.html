@@ -22,43 +22,103 @@
             };
 
             function agregarPersona() {
-                var dbActiva = dataBase.result; //Nos retorna una referencia al IDBDatabase.
 
-                //Para realizar una operación de agreagr, actualización o borrar. Es necesario abrir una transacción e indicar un modo: readonly, readwrite y versionchange
-                var transaccion = dbActiva.transaction(["personas"], "readwrite");
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(agregarConUbicacion)
+                    if (navigator.onLine) {
+                    } else {
+                        agregarSinUbicacion();
+                    }
+                } else {
+                    alert( "Geolocation is not supported by this browser")
+                }
 
-                //Manejando los errores.
-                transaccion.onerror = function (e) {
-                    alert(request.error.name + '\n\n' + request.error.message);
-                };
+                function agregarConUbicacion(posicion) {
+                    var latitud = posicion.coords.latitude;
+                    var longitud = posicion.coords.longitude;
 
-                transaccion.oncomplete = function (e) {
-                    document.querySelector("#nombre").value = '';
-                    document.querySelector("#sector").value = '';
-                    document.querySelector("#nivelEscolar").value = '';
-                    alert('Persona Agregada!');
-                };
+                    var dbActiva = dataBase.result; //Nos retorna una referencia al IDBDatabase.
 
-                //abriendo la colección de datos que estaremos usando.
-                var personas = transaccion.objectStore("personas");
+                    //Para realizar una operación de agreagr, actualización o borrar. Es necesario abrir una transacción e indicar un modo: readonly, readwrite y versionchange
+                    var transaccion = dbActiva.transaction(["personas"], "readwrite");
 
-                //Para agregar se puede usar add o put, el add requiere que no exista el objeto.
-                var request = personas.put({
-                    nombre: document.querySelector("#nombre").value,
-                    sector: document.querySelector("#sector").value,
-                    nivelEscolar: document.querySelector("#nivelEscolar").value
-                });
+                    //Manejando los errores.
+                    transaccion.onerror = function (e) {
+                        alert(request.error.name + '\n\n' + request.error.message);
+                    };
 
-                request.onerror = function (e) {
-                    var mensaje = "Error: "+e.target.errorCode;
-                    alert(mensaje)
-                };
+                    transaccion.oncomplete = function (e) {
+                        document.querySelector("#nombre").value = '';
+                        document.querySelector("#sector").value = '';
+                        document.querySelector("#nivelEscolar").value = '';
+                        alert('Persona Agregada!');
+                    };
 
-                request.onsuccess = function (e) {
-                    document.querySelector("#nombre").value = "";
-                    document.querySelector("#sector").value = "";
-                    document.querySelector("#nivelEscolar").value = "";
-                };
+                    //abriendo la colección de datos que estaremos usando.
+                    var personas = transaccion.objectStore("personas");
+
+                    //Para agregar se puede usar add o put, el add requiere que no exista el objeto.
+                    var request = personas.put({
+                        nombre: document.querySelector("#nombre").value,
+                        sector: document.querySelector("#sector").value,
+                        nivelEscolar: document.querySelector("#nivelEscolar").value,
+                        latutid: latitud,
+                        longitud: longitud
+                    });
+
+                    request.onerror = function (e) {
+                        var mensaje = "Error: "+e.target.errorCode;
+                        alert(mensaje)
+                    };
+
+                    request.onsuccess = function (e) {
+                        document.querySelector("#nombre").value = "";
+                        document.querySelector("#sector").value = "";
+                        document.querySelector("#nivelEscolar").value = "";
+                    };
+                }
+
+                function agregarSinUbicacion() {
+                    var dbActiva = dataBase.result; //Nos retorna una referencia al IDBDatabase.
+
+                    //Para realizar una operación de agreagr, actualización o borrar. Es necesario abrir una transacción e indicar un modo: readonly, readwrite y versionchange
+                    var transaccion = dbActiva.transaction(["personas"], "readwrite");
+
+                    //Manejando los errores.
+                    transaccion.onerror = function (e) {
+                        alert(request.error.name + '\n\n' + request.error.message);
+                    };
+
+                    transaccion.oncomplete = function (e) {
+                        document.querySelector("#nombre").value = '';
+                        document.querySelector("#sector").value = '';
+                        document.querySelector("#nivelEscolar").value = '';
+                        alert('Persona Agregada!');
+                    };
+
+                    //abriendo la colección de datos que estaremos usando.
+                    var personas = transaccion.objectStore("personas");
+
+                    //Para agregar se puede usar add o put, el add requiere que no exista el objeto.
+                    var request = personas.put({
+                        nombre: document.querySelector("#nombre").value,
+                        sector: document.querySelector("#sector").value,
+                        nivelEscolar: document.querySelector("#nivelEscolar").value,
+                        latutid: "",
+                        longitud: ""
+                    });
+
+                    request.onerror = function (e) {
+                        var mensaje = "Error: "+e.target.errorCode;
+                        alert(mensaje)
+                    };
+
+                    request.onsuccess = function (e) {
+                        document.querySelector("#nombre").value = "";
+                        document.querySelector("#sector").value = "";
+                        document.querySelector("#nivelEscolar").value = "";
+                    };
+                }
             }
         </script>
     </head>
