@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                //dependiendo el navegador busco la referencia del objeto.
+                var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB
+
+                //indicamos el nombre y la versión
+                var dataBase = indexedDB.open("Practica8", 1);
+
+                dataBase.onsuccess = function (e) {
+                    //por defecto si no lo indico el tipo de transacción será readonly
+                    var data = dataBase.result.transaction(["personas"]);
+                    var personas = data.objectStore("personas");
+                    var personas_recuperados=[];
+
+                    //abriendo el cursor.
+                    personas.openCursor().onsuccess=function(e) {
+                        //recuperando la posicion del cursor
+                        var cursor = e.target.result;
+                        if(cursor){
+                            //recuperando el objeto.
+                            personas_recuperados.push(cursor.value);
+
+                            //Función que permite seguir recorriendo el cursor.
+                            cursor.continue();
+                        }
+                    };
+
+                    //Una vez que se realiza la operación llamo la impresión.
+                    data.oncomplete = function () {
+                        $.get("/prueba/" + JSON.stringify(personas_recuperados));
+                        window.location.replace("/formulario");
+                    }
+                };
+            });
+        </script>
+    </head>
+    <body></body>
+</html>
