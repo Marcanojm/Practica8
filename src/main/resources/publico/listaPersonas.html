@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Listado</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+    <body>
+        <div class="container">
+            <h1>Lista Personas</h1><br/>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Sector</th>
+                        <th>Nivel Escolar</th>
+                        <th>Ubicaciones relacionadas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <#list listaPersonas as p>
+                        <tr>
+                            <td>${p.nombre}</td>
+                            <td>${p.sector}</td>
+                            <td>${p.nivelEscolar}</td>
+                            <td><a href="/listaUbicaciones/${p.latitud}/${p.longitud}">Ver Lista</a></td>
+                        </tr>
+                    </#list>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

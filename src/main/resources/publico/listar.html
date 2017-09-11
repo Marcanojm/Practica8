@@ -63,12 +63,12 @@
         function borrarPersona(id) {
 
                 var data = dataBase.result.transaction(["personas"], "readwrite");
-                var estudiantes = data.objectStore("personas");
+                var personas = data.objectStore("personas");
 
-                estudiantes.delete(id).onsuccess = function (e) {
+                personas.delete(id).onsuccess = function (e) {
                     window.location.replace("/listar.html");
                 };
-            }
+        }
 
         function modificarPersona(id) {
 

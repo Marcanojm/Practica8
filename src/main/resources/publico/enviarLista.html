@@ -31,7 +31,14 @@
 
                     //Una vez que se realiza la operación llamo la impresión.
                     data.oncomplete = function () {
-                        $.get("/prueba/" + JSON.stringify(personas_recuperados));
+                        $.get("/enviar/" + JSON.stringify(personas_recuperados));
+
+                        var data = dataBase.result.transaction(["personas"], "readwrite");
+                        var personas = data.objectStore("personas");
+                        for (var key in personas_recuperados) {
+                            personas.delete(personas_recuperados[key].id).onsuccess = function (e) {};
+                        }
+
                         window.location.replace("/formulario");
                     }
                 };

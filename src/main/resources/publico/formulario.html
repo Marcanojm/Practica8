@@ -62,8 +62,8 @@
                         nombre: document.querySelector("#nombre").value,
                         sector: document.querySelector("#sector").value,
                         nivelEscolar: document.querySelector("#nivelEscolar").value,
-                        latutid: latitud,
-                        longitud: longitud
+                        latitud: latitud.toString(),
+                        longitud: longitud.toString()
                     });
 
                     request.onerror = function (e) {
@@ -104,7 +104,7 @@
                         nombre: document.querySelector("#nombre").value,
                         sector: document.querySelector("#sector").value,
                         nivelEscolar: document.querySelector("#nivelEscolar").value,
-                        latutid: "",
+                        latitud: "",
                         longitud: ""
                     });
 

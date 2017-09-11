@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Listado</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+    <body>
+        <div class="container">
+            <h1>Lista Ubicaciones</h1><br/>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Ubicacion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <#list listaUbicaciones as u>
+                        <tr>
+                            <td>${u}</td>
+                        </tr>
+                    </#list>
+                </tbody>
+            </table>
+            <a href="/listaPersonas"><button type="button" class="btn btn-primary btn-block">Home</button></a>
+        </div>
+    </body>
+</html>
