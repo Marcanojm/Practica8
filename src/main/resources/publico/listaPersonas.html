@@ -4,6 +4,38 @@
     <title>Listado</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <style>
+        #mapa { height: 500px; width: 100%;}
+    </style>
+    <script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCToD1MyefX2mt8bl-u3WPoxHYZfOCIo9g'></script>
+    <script>
+        function initialize() {
+            var marcadores = document.getElementById('listaLatLong').getAttribute('value').split("/");
+
+            var map = new google.maps.Map(document.getElementById('mapa'), {
+                zoom: 7,
+                center: new google.maps.LatLng(19.487759, -70.6157308),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            var infowindow = new google.maps.InfoWindow();
+            var marker, i;
+            for (i = 0; i < marcadores.length; i++) {
+                var positions = marcadores[i].split(",");
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(positions[0], positions[1]),
+                    map: map
+                });
+                google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                    return function() {
+                        infowindow.setContent(positions[2]);
+                        infowindow.open(map, marker);
+                    }
+                })(marker, i));
+            }
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
 </head>
     <body>
         <div class="container">
@@ -23,11 +55,18 @@
                             <td>${p.nombre}</td>
                             <td>${p.sector}</td>
                             <td>${p.nivelEscolar}</td>
-                            <td><a href="/listaUbicaciones/${p.latitud}/${p.longitud}">Ver Lista</a></td>
+                            <#if p.latitud != "">
+                                <td><a href="/listaUbicaciones/${p.latitud}/${p.longitud}">Ver Lista</a></td>
+                            </#if>
+                            <#if p.latitud == "">
+                                <td>No tiene ubicacion</td>
+                            </#if>
                         </tr>
                     </#list>
                 </tbody>
             </table>
+            <input type="hidden" id="listaLatLong" value="${listaLatLong}">
+            <div id="mapa"></div>
         </div>
     </body>
 </html>

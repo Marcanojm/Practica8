@@ -44,6 +44,20 @@ public class Main {
         get("/listaPersonas", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
 
+            List<Persona> personas = PersonaServices.getInstancia().findAll();
+            String listaLatLong = "";
+
+            for (int i = 0; i < personas.size(); i++) {
+                if (!personas.get(i).getLatitud().equals("") || !personas.get(i).getLongitud().equals("")) {
+                    listaLatLong += personas.get(i).getLatitud() + "," + personas.get(i).getLongitud() + "," + personas.get(i).getNombre();
+                    if(i + 1 < personas.size()) {
+                        listaLatLong += "/";
+                    }
+                }
+            }
+            System.out.println(listaLatLong);
+
+            attributes.put("listaLatLong", listaLatLong);
             attributes.put("listaPersonas", PersonaServices.getInstancia().findAll());
             return new ModelAndView(attributes, "/listaPersonas.html");
         }, freeMarkerEngine);
